@@ -77,6 +77,7 @@ def generate_with_adapter(adapter_path: Path, prompts: list[dict], max_new_token
         dtype=None,
         load_in_4bit=True,
     )
+    tokenizer.chat_template = "{% for message in messages %}{{'<|im_start|>' + message['role'] + '\n' + message['content'] + '<|im_end|>\n'}}{% endfor %}{% if add_generation_prompt %}{{ '<|im_start|>assistant\n' }}{% endif %}"
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
